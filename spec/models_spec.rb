@@ -399,7 +399,7 @@ shared_examples_for "Page" do
       @read_more = 'Continue at your leisure'
       @skillz = 'ruby, guitar, bowstaff'
       @link_text = 'Link to stuff page'
-      @article = create_article(metadata: {
+      @metadata = {
         'date' => @date.gsub('September', 'Sep'),
         'description' => @description,
         'flags' => 'draft, orange',
@@ -410,7 +410,8 @@ shared_examples_for "Page" do
         'summary' => @summary,
         'template' => @template,
         'link text' => @link_text,
-      })
+      }
+      @article = create_article(metadata: @metadata)
     end
 
     it "should override default layout" do
@@ -473,7 +474,8 @@ shared_examples_for "Page" do
       @article.summary.should match(/#{@summary.split('\n\n').last}/)
     end
 
-    it "should allow access to metadata" do
+    it "should allow access to metadata", focus: true do
+      @article.metadata.should == @metadata
       @article.metadata('skillz').should == @skillz
     end
 
